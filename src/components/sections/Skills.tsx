@@ -46,7 +46,7 @@ function SkillCard({
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.3 }}
-      className="relative group"
+      className="relative group min-w-0 w-full"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       role="button"
@@ -54,24 +54,24 @@ function SkillCard({
       onFocus={() => setIsHovered(true)}
       onBlur={() => setIsHovered(false)}
     >
-      <div className="relative rounded-xl bg-surface border border-border/50 p-5 hover:border-accent/40 transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,129,225,0.08)] cursor-default overflow-hidden">
+      <div className="relative rounded-xl bg-surface border border-border/50 p-4 sm:p-5 hover:border-accent/40 transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,129,225,0.08)] cursor-default overflow-hidden min-w-0 w-full">
         {/* Spotlight glow on hover */}
         {!prefersReducedMotion && (
           <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-[radial-gradient(circle_at_50%_50%,rgba(0,129,225,0.06),transparent_60%)]" />
         )}
 
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-9 h-9 rounded-lg bg-accent/10 flex items-center justify-center">
+        <div className="relative z-10 min-w-0 w-full">
+          <div className="flex items-center gap-2.5 sm:gap-3 mb-3 min-w-0 w-full">
+            <div className="w-9 h-9 rounded-lg bg-accent/10 flex items-center justify-center shrink-0">
               {IconComp && <IconComp className="w-4.5 h-4.5 text-accent" />}
             </div>
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 overflow-hidden">
               <h3 className="text-sm font-semibold text-text-primary truncate">
                 {skill.name}
               </h3>
             </div>
             {hasCert && (
-              <span className="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-accent/15 text-accent uppercase tracking-wider shrink-0">
+              <span className="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-accent/15 text-accent uppercase tracking-wider shrink-0 whitespace-nowrap">
                 Certified
               </span>
             )}
@@ -138,9 +138,9 @@ export function Skills() {
     <section
       id={SECTION_IDS.skills}
       ref={ref}
-      className="py-section-sm md:py-section px-6 bg-surface-elevated"
+      className="py-section-sm md:py-section px-4 sm:px-6 bg-surface-elevated overflow-x-clip max-w-full"
     >
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-6xl w-full">
         {/* Header */}
         <motion.p
           className="text-xs font-medium uppercase tracking-[0.2em] text-accent mb-4"
@@ -207,7 +207,7 @@ export function Skills() {
         </div>
 
         {/* Skills grid */}
-        <motion.div layout className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 w-full min-w-0">
           <AnimatePresence mode="popLayout">
             {filteredSkills.map((skill) => (
               <SkillCard key={skill.id} skill={skill} />

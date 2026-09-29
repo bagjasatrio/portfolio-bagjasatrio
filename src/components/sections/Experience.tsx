@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { useInView } from "react-intersection-observer";
 import {
@@ -198,6 +198,7 @@ export function Experience() {
   const { t, language } = useLanguage();
   const prefersReducedMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
 
   // Scroll-driven horizontal shift
   const { scrollYProgress } = useScroll({
@@ -205,9 +206,32 @@ export function Experience() {
     offset: ["start start", "end end"],
   });
 
-  // Translate cards smoothly as user scrolls down the section
-  const x = useTransform(scrollYProgress, [0.05, 0.92], ["0%", "-50%"]);
-  const progressScale = useTransform(scrollYProgress, [0.05, 0.92], [0.05, 1]);
+  // Functional transform: always computes exact pixel shift on each scroll frame
+  // On mobile (<768px), centers the last card perfectly with equal margins
+  // Clamps firmly once the last card is in view so user can comfortably read it
+  const x = useTransform(scrollYProgress, (p) => {
+    const clampedProgress = Math.min(Math.max((p - 0.02) / 0.84, 0), 1);
+    if (!trackRef.current) return 0;
+    const track = trackRef.current;
+    const viewW = typeof window !== "undefined" ? window.innerWidth : 390;
+    const lastCard = track.lastElementChild as HTMLElement;
+
+    let targetShift = 1000;
+    if (lastCard && viewW < 768) {
+      const targetCardX = Math.max(16, (viewW - lastCard.offsetWidth) / 2);
+      targetShift = Math.max(0, lastCard.offsetLeft - targetCardX);
+    } else {
+      const paddingRight = viewW < 1024 ? 48 : 80;
+      targetShift = Math.max(0, track.scrollWidth - viewW + paddingRight);
+    }
+
+    return -clampedProgress * targetShift;
+  });
+
+  const progressScale = useTransform(scrollYProgress, (p) => {
+    const clampedProgress = Math.min(Math.max((p - 0.02) / 0.84, 0), 1);
+    return 0.05 + clampedProgress * 0.95;
+  });
 
   const ibmCerts = certifications.filter((c) => c.publisher === "IBM");
   const otherCerts = certifications.filter((c) => c.publisher !== "IBM");
@@ -220,7 +244,7 @@ export function Experience() {
         ref={sectionRef}
         className="relative bg-background overflow-x-clip"
         style={{
-          height: prefersReducedMotion ? "auto" : "220vh",
+          height: prefersReducedMotion ? "auto" : "280vh",
         }}
       >
         {/* Sticky Viewport Container: stays pinned while scrolling down */}
@@ -259,6 +283,7 @@ export function Experience() {
 
             {/* Sliding Cards Container */}
             <motion.div
+              ref={trackRef}
               style={prefersReducedMotion ? {} : { x }}
               className="flex items-center gap-6 sm:gap-8 md:gap-12 pl-4 sm:pl-10 md:pl-16 pr-12 md:pr-32 w-max"
             >
