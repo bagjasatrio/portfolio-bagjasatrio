@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { displayFont, bodyFont, handFont } from "@/lib/fonts";
 import { SITE_CONFIG } from "@/lib/constants";
 import { LanguageProvider } from "@/components/providers/LanguageProvider";
@@ -83,6 +84,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Footer />
           </LenisProvider>
         </LanguageProvider>
+        <Analytics />
       </body>
     </html>
   );
