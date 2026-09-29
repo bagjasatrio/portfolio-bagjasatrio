@@ -446,26 +446,6 @@ export default function ResumePage() {
             </div>
           </section>
         </div>
-
-        {/* Bottom Call to Action (like Sanjay Menon's footer) */}
-        <div className="text-center py-10 sm:py-14 print:hidden">
-          <p className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary mb-3">
-            {t.contact.heading1}{" "}
-            <RotatingActionText
-              words={[t.contact.design, t.contact.build, t.contact.create]}
-            />{" "}
-            {t.contact.heading2}
-          </p>
-          <div className="mt-4">
-            <Link
-              href="/#contact"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent text-white font-semibold text-sm hover:bg-accent-hover transition-all shadow-md shadow-blue-500/20"
-            >
-              <span>{t.hero.getInTouch}</span>
-              <ArrowLeft className="w-4 h-4 rotate-180" />
-            </Link>
-          </div>
-        </div>
       </div>
     </main>
   );
