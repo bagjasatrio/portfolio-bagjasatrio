@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  /* Colors - Light Blue Theme from Reference */
+  --color-background: #F9FDFF;
+  --color-surface: #FFFFFF;
+  --color-surface-elevated: #F0F7FF;
+  --color-text-primary: #1E1E22;
+  --color-text-secondary: #52525B;
+  --color-text-tertiary: #8B8B95;
+  --color-accent: #0081E1;
+  --color-accent-hover: #006BC0;
+  --color-accent-surface: #1B8AE5;
+  --color-accent-light: #65B2F5;
+  --color-accent-glow: rgba(0, 129, 225, 0.12);
+  --color-border: #E4E8EC;
+  --color-border-subtle: #F0F4F7;
+
+  /* Font families */
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-hand: var(--font-hand);
+
+  /* Spacing scale (8dp rhythm) */
+  --spacing-section: 7rem;
+  --spacing-section-sm: 4rem;
+}
+
+/* Base styles */
+.font-hand {
+  font-family: var(--font-hand), "Caveat", cursive, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body), system-ui, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Skip to content */
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  padding: 0.75rem 1.5rem;
+  background: var(--color-accent);
+  color: #fff;
+  border-radius: 0 0 0.5rem 0.5rem;
+  font-weight: 600;
+  transition: top 0.2s ease;
+}
+
+.skip-to-content:focus {
+  top: 0;
+}
+
+/* Scroll progress bar */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: var(--color-accent);
+  z-index: 9999;
+  transform-origin: left;
+  pointer-events: none;
+}
+
+/* Focus ring global */
+*:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Selection */
+::selection {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Hero image focus point (adjustable) */
+:root {
+  --hero-focus-x: 50%;
+  --hero-focus-y: 100%;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-tertiary);
+}
+
+/* Easter egg bounce-in */
+@keyframes bounceIn {
+  0% { opacity: 0; transform: translateX(-50%) scale(0.3) translateY(20px); }
+  50% { opacity: 1; transform: translateX(-50%) scale(1.05) translateY(-4px); }
+  100% { opacity: 1; transform: translateX(-50%) scale(1) translateY(0); }
+}
+
+/* Custom cursor: hide default on interactive elements for fine pointers */
+@media (pointer: fine) {
+  a, button, [role="button"], input, textarea, select, [tabindex] {
+    cursor: none !important;
+  }
+}
