@@ -42,9 +42,9 @@ Skills with `confirmed: false` are **not rendered**. Set `confirmed: true` after
 |-------|----------|-------|
 | Hero background | `public/images/hero/background-hero.jpg` | Original in `assets/img/` |
 | Certificates (PDF) | `public/certificates/*.pdf` | 13 PDFs copied from `assets/certificates/` |
-| About photo | Replace placeholder in `About.tsx` | Put photo at `public/images/about.jpg` |
-| Project screenshots | `public/projects/[slug]/cover.*` | Currently CSS gradient placeholders |
-| CV PDF | `public/CV_MUHAMMAD_BAGJA_SATRIO.pdf` | Not yet added — TODO |
+| About photo | `public/images/about/about.png` | Real portrait photo |
+| Project screenshots | `public/projects/[slug]/cover.*` | SVG/App visual mockups |
+| CV PDF | `public/CV_MUHAMMAD_BAGJA_SATRIO_ID.pdf` & `_EN.pdf` | Dual language CVs |
 
 ### Hero focus point
 
@@ -82,6 +82,7 @@ Or connect the GitHub repo to [vercel.com](https://vercel.com) for auto-deploy.
 - **Styling**: Tailwind CSS v4
 - **Animation**: Framer Motion (motion/react)
 - **Smooth Scroll**: Lenis
-- **Fonts**: Space Grotesk (display) + DM Sans (body)
+- **Fonts**: Inter (display & body) + Caveat (handwritten accent)
+- **Localization**: Bilingual ID / EN switcher with localStorage persistence
 - **Icons**: Lucide React + inline SVG (GitHub, LinkedIn)
 - **Deploy**: Vercel
