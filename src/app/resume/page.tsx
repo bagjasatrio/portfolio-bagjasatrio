@@ -1,6 +1,8 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { motion, useReducedMotion } from "motion/react";
 import {
   Download,
   ArrowLeft,
@@ -21,6 +23,47 @@ import { certifications } from "../../../data/certifications";
 import { projects } from "../../../data/projects";
 import { skills } from "../../../data/skills";
 import { useLanguage } from "@/components/providers/LanguageProvider";
+
+function RotatingActionText({ words }: { words: readonly string[] }) {
+  const [index, setIndex] = useState(0);
+  const prefersReducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % words.length);
+    }, 2200);
+    return () => clearInterval(interval);
+  }, [words.length, prefersReducedMotion]);
+
+  // Find longest word to reserve proper width
+  const longestWord = words.reduce(
+    (a, b) => (a.length > b.length ? a : b),
+    words[0] || ""
+  );
+
+  return (
+    <span className="relative inline-block font-hand font-bold text-accent text-[1.2em] px-1 align-baseline text-left min-w-[90px] sm:min-w-[120px]">
+      {words.map((word, i) => (
+        <motion.span
+          key={word}
+          className="absolute left-0 text-accent font-hand font-bold tracking-wide"
+          initial={{ opacity: 0, y: 15 }}
+          animate={{
+            opacity: i === index ? 1 : 0,
+            y: i === index ? 0 : -15,
+          }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+        >
+          {word}
+        </motion.span>
+      ))}
+      <span className="invisible font-hand font-bold tracking-wide">
+        {longestWord}
+      </span>
+    </span>
+  );
+}
 
 export default function ResumePage() {
   const { language, t } = useLanguage();
@@ -408,9 +451,9 @@ export default function ResumePage() {
         <div className="text-center py-10 sm:py-14 print:hidden">
           <p className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-text-primary mb-3">
             {t.contact.heading1}{" "}
-            <span className="font-hand font-bold text-accent text-[1.2em] px-1 inline-block align-baseline">
-              {t.contact.design}
-            </span>{" "}
+            <RotatingActionText
+              words={[t.contact.design, t.contact.build, t.contact.create]}
+            />{" "}
             {t.contact.heading2}
           </p>
           <div className="mt-4">
