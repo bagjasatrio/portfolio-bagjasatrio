@@ -127,31 +127,31 @@ export function Hero() {
       </div>
 
       {/* BOTTOM-CENTER: CTA buttons */}
-      <div className="absolute bottom-14 md:bottom-16 left-1/2 -translate-x-1/2 z-10">
+      <div className="absolute bottom-8 sm:bottom-12 md:bottom-16 inset-x-0 flex justify-center z-10 px-4">
         <motion.div
-          className="flex items-center gap-3"
+          className="flex flex-row items-center justify-center gap-3 sm:gap-3.5 w-max max-w-full"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.9 }}
         >
           <a
             href="#work"
-            className="inline-flex items-center gap-2 px-8 py-3.5 bg-accent text-white font-semibold rounded-full hover:bg-accent-hover transition-colors text-base"
+            className="inline-flex items-center justify-center gap-2 px-7 sm:px-8 py-3 sm:py-3.5 bg-accent text-white font-semibold rounded-full hover:bg-accent-hover transition-all text-sm sm:text-base whitespace-nowrap shadow-lg shadow-black/10"
           >
             {t.hero.viewWork}
           </a>
           <a
             href="#contact"
-            className="inline-flex items-center gap-2 px-8 py-3.5 border border-white/30 text-white font-semibold rounded-full hover:bg-white/10 backdrop-blur-sm transition-colors text-base"
+            className="inline-flex items-center justify-center gap-2 px-7 sm:px-8 py-3 sm:py-3.5 border border-white/40 text-white font-semibold rounded-full hover:bg-white/15 backdrop-blur-sm transition-all text-sm sm:text-base whitespace-nowrap shadow-sm"
           >
             {t.hero.getInTouch}
           </a>
         </motion.div>
       </div>
 
-      {/* Scroll indicator — bottom-right */}
+      {/* Scroll indicator — bottom-right (hidden on mobile to prevent clutter) */}
       <motion.div
-        className="absolute bottom-6 right-6 md:right-12 z-10"
+        className="hidden sm:block absolute bottom-6 right-6 md:right-12 z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}

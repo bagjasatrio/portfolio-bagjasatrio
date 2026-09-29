@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { displayFont, bodyFont, handFont } from "@/lib/fonts";
 import { SITE_CONFIG } from "@/lib/constants";
 import { LanguageProvider } from "@/components/providers/LanguageProvider";
@@ -10,6 +10,13 @@ import { CustomCursor } from "@/components/ui/CustomCursor";
 import { EasterEgg } from "@/components/ui/EasterEgg";
 import { BackToTop } from "@/components/ui/BackToTop";
 import "./globals.css";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: "#F9FDFF",
+};
 
 export const metadata: Metadata = {
   title: {
@@ -66,7 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body className="min-h-dvh flex flex-col bg-background text-text-primary">
+      <body className="min-h-dvh flex flex-col bg-background text-text-primary overflow-x-hidden max-w-full">
         <LanguageProvider>
           <LenisProvider>
             <a href="#main" className="skip-to-content">

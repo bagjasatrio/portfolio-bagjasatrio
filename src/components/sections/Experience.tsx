@@ -218,7 +218,7 @@ export function Experience() {
       <section
         id={SECTION_IDS.experience}
         ref={sectionRef}
-        className="relative bg-background"
+        className="relative bg-background overflow-x-clip"
         style={{
           height: prefersReducedMotion ? "auto" : "220vh",
         }}

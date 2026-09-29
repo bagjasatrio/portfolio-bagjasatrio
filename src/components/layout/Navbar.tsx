@@ -2,8 +2,10 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "@/components/providers/LanguageProvider";
+import { SITE_CONFIG } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { Menu, X, Globe } from "lucide-react";
 
@@ -56,13 +58,10 @@ export function Navbar() {
       setScrolled(true);
 
       const diff = currentY - lastScrollY.current;
-      // Only change hidden if scroll diff exceeds threshold
       if (Math.abs(diff) > threshold) {
         if (diff > 0 && currentY > 120) {
-          // Scrolling down
           setHidden(true);
         } else if (diff < 0) {
-          // Scrolling up
           setHidden(false);
         }
         lastScrollY.current = currentY;
@@ -100,25 +99,44 @@ export function Navbar() {
     <header
       onMouseEnter={() => setHidden(false)}
       className={cn(
-        "fixed top-0 left-0 right-0 z-[100] transition-transform duration-300 pointer-events-none",
+        "fixed top-0 inset-x-0 w-full z-[100] transition-transform duration-300 pointer-events-none flex flex-col items-center",
         hidden && !mobileOpen ? "-translate-y-full" : "translate-y-0"
       )}
     >
-      {/* Centered liquid glass navbar */}
-      <div className="flex justify-center px-4 pt-4 pointer-events-none">
+      {/* Centered liquid glass navbar container */}
+      <div className="w-full flex justify-center px-4 pt-3 sm:pt-4 pointer-events-none">
         <nav
           className={cn(
-            "flex items-center gap-1.5 px-3 py-2 rounded-full transition-all duration-500 pointer-events-auto",
+            "pointer-events-auto flex items-center justify-between sm:justify-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-full transition-all duration-500 mx-auto max-w-[calc(100vw-2rem)]",
             /* Liquid glass effect */
             "backdrop-blur-xl backdrop-saturate-150",
             scrolled
-              ? "bg-surface/75 shadow-lg shadow-black/5 border border-border/50"
-              : "bg-surface/40 border border-border/25"
+              ? "bg-surface/80 shadow-lg shadow-black/5 border border-border/60"
+              : "bg-surface/45 border border-border/30"
           )}
           aria-label="Main navigation"
         >
+          {/* Brand with Avatar (Like Sanjay Menon's navbar) */}
+          <Link
+            href="/"
+            className="flex items-center gap-2 pl-0.5 pr-2 py-0.5 text-text-primary hover:text-accent transition-colors shrink-0"
+          >
+            <div className="relative w-6 h-6 rounded-full overflow-hidden border border-white/60 shadow-sm shrink-0">
+              <Image
+                src="/images/about/about.png"
+                alt="Bagja"
+                fill
+                className="object-cover"
+                sizes="24px"
+              />
+            </div>
+            <span className="font-display text-xs sm:text-sm font-extrabold tracking-wider uppercase">
+              {SITE_CONFIG.shortName}
+            </span>
+          </Link>
+
           {/* Desktop links */}
-          <ul className="hidden md:flex items-center gap-0.5">
+          <ul className="hidden md:flex items-center gap-0.5 ml-1">
             {NAV_ITEMS.map((item) => {
               const label = t.nav[item.key];
               const isHash = item.href.startsWith("#");
@@ -134,9 +152,9 @@ export function Navbar() {
                     href={resolvedHref}
                     onClick={(e) => handleLinkClick(e, item.href)}
                     className={cn(
-                      "relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 block",
+                      "relative px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 block",
                       isActive
-                        ? "text-accent bg-accent/10"
+                        ? "text-accent bg-accent/10 font-semibold"
                         : "text-text-secondary hover:text-text-primary hover:bg-surface-elevated/60"
                     )}
                   >
@@ -148,16 +166,16 @@ export function Navbar() {
           </ul>
 
           {/* Divider */}
-          <div className="hidden md:block w-px h-5 bg-border/40 mx-1" />
+          <div className="w-px h-4 bg-border/50 mx-1 shrink-0" />
 
           {/* Language toggle: ID / EN */}
           <button
             type="button"
             onClick={toggleLanguage}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold tracking-wider text-text-secondary hover:text-accent hover:bg-surface-elevated/60 transition-all cursor-pointer border border-border/40"
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold tracking-wider text-text-secondary hover:text-accent hover:bg-surface-elevated/60 transition-all cursor-pointer border border-border/40 shrink-0"
             aria-label={`Ganti bahasa / Switch language (active: ${language.toUpperCase()})`}
           >
-            <Globe size={13} className="opacity-70" />
+            <Globe size={12} className="opacity-70" />
             <span
               className={cn(
                 "transition-colors",
@@ -181,7 +199,7 @@ export function Navbar() {
           <button
             type="button"
             onClick={() => setMobileOpen((v) => !v)}
-            className="md:hidden size-9 flex items-center justify-center rounded-full text-text-secondary hover:text-accent hover:bg-surface-elevated/60 transition-all cursor-pointer"
+            className="md:hidden size-8 flex items-center justify-center rounded-full text-text-secondary hover:text-accent hover:bg-surface-elevated/60 transition-all cursor-pointer shrink-0"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
           >
@@ -190,10 +208,10 @@ export function Navbar() {
         </nav>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile menu dropdown */}
       {mobileOpen && (
-        <div className="md:hidden flex justify-center px-4 mt-2 pointer-events-auto">
-          <div className="rounded-2xl border border-border/50 bg-surface/85 backdrop-blur-xl backdrop-saturate-150 p-4 min-w-[220px] shadow-xl">
+        <div className="md:hidden w-full flex justify-center px-4 mt-2 pointer-events-auto">
+          <div className="rounded-2xl border border-border/50 bg-surface/90 backdrop-blur-xl backdrop-saturate-150 p-4 min-w-[240px] shadow-2xl">
             <ul className="flex flex-col gap-1">
               {NAV_ITEMS.map((item) => {
                 const label = t.nav[item.key];
